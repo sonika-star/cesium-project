@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aircraft Intrusion Events 3D Map</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Leaflet CSS for 2D map -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css"
+    />
+    <!-- Cesium CSS for 3D map -->
+    <link
+      rel="stylesheet"
+      href="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Widgets/widgets.css"
+    />
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.110/Build/Cesium/Cesium.js"></script>
+  </head>
+  <body>
+    <h2>Aircraft Event Viewer - 3D Visualization</h2>
+
+    <div id="container">
+      <div id="sidebar">
+        <h3>Event Filter</h3>
+        <select id="eventDropdown">
+          <option value="">--select event--</option>
+        </select>
+
+        <!-- Map View Buttons -->
+        <div class="map-view-container">
+          <h4>Map View</h4>
+          <div class="map-view-buttons">
+            <button id="btn2D" class="map-view-btn">2D Map</button>
+            <button id="btn3D" class="map-view-btn active">3D Map</button>
+          </div>
+        </div>
+
+        <div id="eventDetails" style="margin-top: 15px; display: none">
+          <div
+            id="eventMedia"
+            class="media-grid"
+            style="margin-top: 10px"
+          ></div>
+        </div>
+        <!-- Measurement screen-space label (crisp) -->
+        <div
+          id="measurePopup"
+          class="measure-popup"
+          style="display: none"
+          aria-hidden="true"
+        ></div>
+
+        <!-- Media Preview Section -->
+        <div id="mediaPreview" style="display: none; margin-top: 20px">
+          <h4>Media Preview</h4>
+          <div id="imagePreview" class="media-preview-section"></div>
+          <div id="videoPreview" class="media-preview-section"></div>
+          <div id="audioPreview" class="media-preview-section"></div>
+        </div>
+
+        <div id="animControls" style="margin-top: 20px">
+          <h4>Playback</h4>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap">
+            <button id="playBtn">Play</button>
+            <button id="pauseBtn">Pause</button>
+            <button id="resumeBtn">Resume</button>
+            <button id="stopBtn">Stop</button>
+            <!-- Playback speed slider (1x - 10x) -->
+            <div
+              id="speedControl"
+              style="display: flex; align-items: center; gap: 8px"
+            >
+              <input
+                id="speedSlider"
+                type="range"
+                min="1"
+                max="10"
+                step="1"
+                value="1"
+              />
+              <div id="speedValueLabel" aria-live="polite">Speed: 1x</div>
+            </div>
+            <button
+              id="radiusToggleBtn"
+              title="Toggle Impact Zone"
+              aria-pressed="false"
+            >
+              Impact Zone
+            </button>
+          </div>
+          <div id="animationStatus" class="animation-status">Ready</div>
+          <small style="color: #555; display: block; margin-top: 6px"
+            >Select event then Play to animate.</small
+          >
+        </div>
+
+        <div id="timelineControls" style="margin-top: 20px; display: none">
+          <h4>Animation Timeline</h4>
+          <input
+            type="range"
+            id="timelineSlider"
+            class="animation-slider"
+            min="0"
+            max="100"
+            value="0"
+          />
+          <div class="animation-progress">
+            <span id="currentTime">00:00</span>
+            <span id="totalTime">00:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="cesiumContainer"></div>
+
+      <!-- 2D Map Container (hidden by default) -->
+      <div
+        id="leafletContainer"
+        style="display: none; width: 100%; height: 100%"
+      ></div>
+
+      <!-- Custom Zoom Controls (compact) -->
+      <div class="zoom-controls">
+        <button id="zoomInBtn" title="Zoom In">+</button>
+        <button id="zoomOutBtn" title="Zoom Out">−</button>
+        <button id="measureBtn" title="Measure distance">📏</button>
+        <!-- Pan (hand) tool: same size and placed directly under measurement tool -->
+        <button id="panToolBtn" title="Pan (hand) tool">✋</button>
+      </div>
+    </div>
+
+    <!-- Media Modal -->
+    <div id="mediaModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="mediaModalTitle"></h3>
+          <button onclick="closeMediaModal()" class="modal-close">×</button>
+        </div>
+        <div id="mediaModalContent"></div>
+      </div>
+    </div>
+    <!-- Screen-space HTML popup (sharp, shown on aircraft click only) -->
+    <div
+      id="aircraftPopup"
+      class="aircraft-popup"
+      style="display: none"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Leaflet JS for 2D map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
