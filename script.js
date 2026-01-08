@@ -16,8 +16,8 @@ const eventDataString = urlParams.get("eventData");
 const eventData = eventDataString ? JSON.parse(eventDataString) : null;
 
 // CONFIG
-// const BASE_API_URL = "http://192.168.1.30:9001/event/event/api";
-const BASE_API_URL = "http://192.168.1.30:9008/event/api";
+const BASE_API_URL = "http://192.168.1.30:9001/event/event/api";
+//const BASE_API_URL = "http://192.168.1.30:9008/event/api";
 const ENDPOINTS = {
   ALL_EVENTS: `${BASE_API_URL}/events/`,
   EVENT_BY_ID: (id) => `${BASE_API_URL}/events/${id}/full/`,
@@ -2399,10 +2399,18 @@ function updateAircraftPopupContent() {
   aircraftPopupElement.innerHTML = `
     <div class="popup-content">
       <button class="popup-close" onclick="window.closeAircraftPopup()">&times;</button>
-      <div class="info-line">Lat: ${aircraftClickState.latitude.toFixed(6)}</div>
-      <div class="info-line">Lon: ${aircraftClickState.longitude.toFixed(6)}</div>
-      <div class="info-line">Terrain: ${aircraftClickState.terrainHeight.toFixed(1)} m</div>
-      <div class="info-line">Altitude (MSL): ${aircraftClickState.altitudeMSL.toFixed(1)} m</div>
+      <div class="info-line">Lat: ${aircraftClickState.latitude.toFixed(
+        6
+      )}</div>
+      <div class="info-line">Lon: ${aircraftClickState.longitude.toFixed(
+        6
+      )}</div>
+      <div class="info-line">Terrain: ${aircraftClickState.terrainHeight.toFixed(
+        1
+      )} m</div>
+      <div class="info-line">Altitude (MSL): ${aircraftClickState.altitudeMSL.toFixed(
+        1
+      )} m</div>
       <div class="info-line">AGL: ${aircraftClickState.agl.toFixed(1)} m</div>
     </div>
   `;
